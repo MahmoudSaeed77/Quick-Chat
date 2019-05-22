@@ -57,7 +57,7 @@ class ChattTableViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        ScrollToBottom()
         setupDelegate()
         keyboardNotification()
         addedViews()
@@ -67,6 +67,18 @@ class ChattTableViewController: UIViewController {
         retrieveData()
         
         
+        
+    }
+    func ScrollToBottom() {
+        let lastSection = self.collectionView.numberOfSections - 1
+        let lastRow = self.collectionView.numberOfItems(inSection: lastSection)
+        let indexPath = IndexPath(row: lastRow - 1, section: lastSection)
+//        let indexPath = IndexPath(item: lastRow, section: lastSection)
+        self.collectionView.scrollToItem(at: indexPath, at: UICollectionView.ScrollPosition.bottom, animated: true)
+        
+        
+        
+
     }
     
     func registerClasses(){
@@ -154,13 +166,13 @@ extension ChattTableViewController: UICollectionViewDataSource, UICollectionView
         cell.nameLabel.text = messageArray[indexPath.row].sender
         
         if cell.nameLabel.text == Auth.auth().currentUser?.email {
-            incomming = true
-            outgoing = false
+            incomming = false
+            outgoing = true
             cell.incomming(incomming: incomming)
 
         }else{
-            incomming = false
-            outgoing = true
+            incomming = true
+            outgoing = false
             cell.incomming(incomming: incomming)
             
         }
@@ -170,12 +182,12 @@ extension ChattTableViewController: UICollectionViewDataSource, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if let messegeText = messageArray[indexPath.row].messegeBody as String? {
-            let size = CGSize(width: view.frame.width, height: 10000000)
+            let size = CGSize(width: view.frame.width, height: 1000000000)
             let option = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
             
-            let esstimateFrame = NSString(string: messegeText).boundingRect(with: size, options: option, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18)], context: nil)
+            let esstimateFrame = NSString(string: messegeText).boundingRect(with: size, options: option, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20)], context: nil)
             
-            return CGSize(width: view.frame.width, height: esstimateFrame.height + 40)
+            return CGSize(width: view.frame.width, height: esstimateFrame.height + 20)
         }
     }
     
@@ -217,13 +229,6 @@ extension ChattTableViewController: UICollectionViewDataSource, UICollectionView
     
     
     @objc func KeyboardWillShow(notification: NSNotification){
-//        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-//            if self.view.frame.origin.y == 0 {
-//                self.view.frame.origin.y -= keyboardSize.height
-//            }
-//        }
-        
-        
         
         if let userInfo = notification.userInfo {
             let keyboardSize = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
@@ -232,17 +237,13 @@ extension ChattTableViewController: UICollectionViewDataSource, UICollectionView
             
             bottomConstraint?.constant = isKeyboardShowing ? 0 : (-keyboardSize!.height)
             
+            UIView.animate(withDuration: 0) {
+                self.view.layoutIfNeeded()
+            }
+            
         }
         
     }
-
-//    @objc func KeyboardWillHide(notification: NSNotification){
-//        if let userInfo = notification.userInfo {
-//            let keyboardSize = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
-//
-////            messagingView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: keyboardSize!.height).isActive = true
-//        }
-//    }
 }
 
 extension ChattTableViewController: UITextFieldDelegate {
@@ -257,20 +258,4 @@ extension ChattTableViewController: UITextFieldDelegate {
         self.view.endEditing(true)
     }
     
-    
-    
-//    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
-//        UIView.animate(withDuration: 0.3) {
-//            self.messagingView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -260).isActive = true
-//            self.view.layoutIfNeeded()
-//        }
-//    }
-//
-//    func textFieldDidEndEditing(_ textField: UITextField) {
-//        UIView.animate(withDuration: 0.3) {
-//            self.messageTextField.resignFirstResponder()
-//            self.messagingView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 260).isActive = true
-//            self.view.layoutIfNeeded()
-//        }
-//    }
 }

@@ -17,8 +17,9 @@ class CustomCellController: UICollectionViewCell{
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .clear
+        addSubview(avatarImage)
         addSubview(containerView)
-        containerView.addSubview(avatarImage)
+//        containerView.addSubview(avatarImage)
         containerView.addSubview(nameLabel)
         containerView.addSubview(messageLabel)
         sentMessegeConstraints()
@@ -63,7 +64,7 @@ class CustomCellController: UICollectionViewCell{
         theView.translatesAutoresizingMaskIntoConstraints = false
 //        theView.backgroundColor = .gray
         theView.layer.masksToBounds = true
-        theView.layer.cornerRadius = 5
+        theView.layer.cornerRadius = 10
         return theView
     }()
     
@@ -73,26 +74,27 @@ class CustomCellController: UICollectionViewCell{
         
         
         incommingConstraints = [
-            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            containerView.widthAnchor.constraint(lessThanOrEqualToConstant: 320),
+            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 40),
+            containerView.widthAnchor.constraint(lessThanOrEqualToConstant: 350),
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            avatarImage.widthAnchor.constraint(equalToConstant: 20),
-            avatarImage.heightAnchor.constraint(equalToConstant: 20),
+            avatarImage.widthAnchor.constraint(equalToConstant: 30),
+            avatarImage.heightAnchor.constraint(equalToConstant: 30),
             
-            avatarImage.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),
-            avatarImage.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8),
+//            avatarImage.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),
+            avatarImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
+            avatarImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
             nameLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),
             nameLabel.leadingAnchor.constraint(equalTo: avatarImage.trailingAnchor, constant: 8),
             nameLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
             nameLabel.heightAnchor.constraint(equalToConstant: 15),
             
-            messageLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor),
-            messageLabel.leadingAnchor.constraint(equalTo: avatarImage.trailingAnchor, constant: 8),
-            messageLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -50),
-            messageLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -20),
+            messageLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5),
+            messageLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 5),
+            messageLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -5),
+            messageLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -5),
             
             
             
@@ -103,26 +105,26 @@ class CustomCellController: UICollectionViewCell{
         outgoingConstraints = [
 
             
-            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             containerView.widthAnchor.constraint(lessThanOrEqualToConstant: 320),
-            
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            avatarImage.widthAnchor.constraint(equalToConstant: 20),
-            avatarImage.heightAnchor.constraint(equalToConstant: 20),
-            avatarImage.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),
-            avatarImage.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8),
+            avatarImage.widthAnchor.constraint(equalToConstant: 10),
+            avatarImage.heightAnchor.constraint(equalToConstant: 10),
+//            avatarImage.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),
+            avatarImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            avatarImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
             
             nameLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8),
             nameLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
             nameLabel.trailingAnchor.constraint(equalTo: avatarImage.leadingAnchor),
             nameLabel.heightAnchor.constraint(equalToConstant: 15),
             
-            messageLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor),
-            messageLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8),
-            messageLabel.trailingAnchor.constraint(equalTo: avatarImage.trailingAnchor, constant: -50),
-            messageLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -20),
+            messageLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 5),
+            messageLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 5),
+            messageLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -5),
+            messageLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -5),
             
             
             
@@ -143,8 +145,10 @@ class CustomCellController: UICollectionViewCell{
             NSLayoutConstraint.deactivate(outgoingConstraints)
             NSLayoutConstraint.activate(incommingConstraints)
             containerView.backgroundColor = .gray
-            nameLabel.textColor = .white
+            nameLabel.textColor = .gray
             messageLabel.textColor = .white
+            avatarImage.layer.masksToBounds = true
+            avatarImage.layer.cornerRadius = 15
 
         }else{
 
@@ -153,8 +157,10 @@ class CustomCellController: UICollectionViewCell{
             NSLayoutConstraint.activate(outgoingConstraints)
             
             containerView.backgroundColor = .cyan
-            nameLabel.textColor = .black
+            nameLabel.textColor = .cyan
             messageLabel.textColor = .black
+            avatarImage.layer.masksToBounds = true
+            avatarImage.layer.cornerRadius = 5
 
 //            avatarImage.image = UIImage(named: "MessageBubble")?.resizableImage(withCapInsets: insestOutcomming)
         }
